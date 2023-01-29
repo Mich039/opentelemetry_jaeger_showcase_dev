@@ -24,7 +24,7 @@ app.use(bp.urlencoded({ extended: true }))
 
 async function contact_payment_service(credit_amount) {
     var amount = credit_amount / 100;
-    const response = await fetch('http://localhost:7777/pay', {
+    const response = await fetch('http://payment:7777/pay', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -100,7 +100,6 @@ app.get('/:user_id', (req, res) => {
         res.status(200).send(user)
     }
 })
-
 
 app.get('/ratings/:user_id', async function (req, res) {
     console.log("getting all ratings for user with id: ", parseInt(req.params.user_id))

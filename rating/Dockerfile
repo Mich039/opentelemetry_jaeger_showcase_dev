@@ -9,6 +9,6 @@ RUN pip list
 
 COPY app.py ./
 
-CMD [ "waitress-serve","--call", "app:create_app" ]
+CMD [ "waitress-serve","--port=6789","--call", "app:create_app"]
 
-EXPOSE 8080
+EXPOSE 6789

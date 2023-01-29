@@ -12,7 +12,9 @@ Monitoring:
 - Jaeger
 
 ## Research
-
+https://www.youtube.com/watch?v=FK0uh-7nDSg
+https://www.youtube.com/watch?v=oe5YYh9mhzw
+https://docs.dapr.io/operations/monitoring/tracing/jaeger/
 
 
 
@@ -61,6 +63,3 @@ az group delete --name clc_proj --yes
 
 
 
-https://www.youtube.com/watch?v=FK0uh-7nDSg
-https://www.youtube.com/watch?v=oe5YYh9mhzw
-https://docs.dapr.io/operations/monitoring/tracing/jaeger/

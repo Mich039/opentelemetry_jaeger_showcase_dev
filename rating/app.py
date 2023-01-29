@@ -1,11 +1,12 @@
 import os
 
+import requests
 from flask import Flask, jsonify, request
 from opentelemetry import trace
 from opentelemetry.instrumentation.flask import FlaskInstrumentor
 from opentelemetry.sdk.resources import SERVICE_NAME, Resource
 from opentelemetry.sdk.trace import TracerProvider
-from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
+from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
 
 app = Flask(__name__)
@@ -13,7 +14,7 @@ FlaskInstrumentor().instrument_app(app)
 
 trace.set_tracer_provider(TracerProvider(resource=Resource.create({SERVICE_NAME: "rating"})))
 trace.get_tracer_provider().add_span_processor(
-    BatchSpanProcessor(OTLPSpanExporter())
+    BatchSpanProcessor(OTLPSpanExporter("http://jaeger:4318/v1/traces"))
 )
 
 # Dict of with movie id key and dict as value
@@ -31,7 +32,9 @@ def addRating():
     rating = int(payload['rating'])
 
     #TODO: Check for movie
-    #TODO: Check for user
+    resp = requests.get(f"http://user:8888/{user_id}")
+    if resp.status_code != 200:
+        return "User not found",400
     #Check rating between 0 and 5
     if rating > 5 or rating < 0:
         return jsonify({"error:":"Invalid Rating. Rating must be betweewn 0 and 5"}), 400

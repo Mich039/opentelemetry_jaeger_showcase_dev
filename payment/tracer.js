@@ -24,18 +24,18 @@ const exporter = new JaegerExporter({
 const provider = new BasicTracerProvider({
   resource: new Resource({
     [SemanticResourceAttributes.SERVICE_NAME]:
-      "PAYMMENT-SERVICE",
+      "payment",
   }),
 });
 // export spans to console (useful for debugging)
-provider.addSpanProcessor(new BatchSpanProcessor(new ConsoleSpanExporter()));
+//provider.addSpanProcessor(new BatchSpanProcessor(new ConsoleSpanExporter()));
 // export spans to opentelemetry collector
 provider.addSpanProcessor(new BatchSpanProcessor(exporter));
 
 provider.register();
 const sdk = new opentelemetry.NodeSDK({
   traceExporter: exporter,
-  instrumentations: [getNodeAutoInstrumentations(), new ExpressInstrumentation(), new HttpInstrumentation()],
+  instrumentations: [new ExpressInstrumentation(), new HttpInstrumentation()],
 });
 
 // initialize the SDK and register with the OpenTelemetry API
