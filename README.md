@@ -4,9 +4,11 @@
 Microservices:
 - javaScript (nodeJs + express)
 - python (Flask & django)
+
 Deployment:
 - docker
 - kubernetes
+
 Monitoring:
 - openTelemetry 
 - Jaeger
@@ -14,28 +16,24 @@ Monitoring:
 ## Research
 
 Options for instrumentation with openTelemetry:
-A) Manual instrumentation (https://opentelemetry.io/docs/instrumentation/python/manual/)
-B) Auto-instrumentation (https://opentelemetry.io/docs/instrumentation/python/automatic/)
-C) Auto-instrumentation vìa kubernetes operators (https://github.com/open-telemetry/opentelemetry-operator)
+- Manual instrumentation (https://opentelemetry.io/docs/instrumentation/python/manual/)
+- Auto-instrumentation (https://opentelemetry.io/docs/instrumentation/python/automatic/)
+- Auto-instrumentation vìa kubernetes operators (https://github.com/open-telemetry/opentelemetry-operator)
 
 Options for Jaeger deployment:
-A) Kubernetes operator (https://www.jaegertracing.io/docs/1.41/operator/)
-B) Kubernetes service (https://github.com/jaegertracing/jaeger-kubernetes)
+- Kubernetes operator (https://www.jaegertracing.io/docs/1.41/operator/)
+- Kubernetes service (https://github.com/jaegertracing/jaeger-kubernetes)
 
 Options for communication openTelemetry -> Jaeger:
 - OTLP exporter -> Jaeger (https://www.aspecto.io/blog/distributed-tracing-with-opentelemetry-collector-on-kubernetes/)
 - Jaeger exporter -> Jaeger (https://github.com/angudadevops/jaeger-k8s/blob/master/python/app/app.py)
 - OTLP exporter -> Jaeger collector -> Jaeger (https://medium.com/@akashjoffical08/implement-distributed-tracing-with-jaeger-opentelemetry-on-kubernetes-3e35cb77b536)
 
-https://www.youtube.com/watch?v=FK0uh-7nDSg
-https://www.youtube.com/watch?v=oe5YYh9mhzw
-https://docs.dapr.io/operations/monitoring/tracing/jaeger/
+
 ## Architecture
 
 
-
-
-## Azure set up
+## Original plan: Azure set up
 
 ### Requirements:
 - Auzre CLI
@@ -55,7 +53,7 @@ kubectl create namespace observability
 kubectl create -f https://github.com/jaegertracing/jaeger-operator/releases/download/v1.41.0/jaeger-operator.yaml -n observability
 ```
 
-docker run --name jaeger -d -p 16686:16686 -p 4317:4317 -p 4318:4318 -e COLLECTOR_OTLP_ENABLED=true jaegertracing/all-in-one:latest
+<... did not work ...>
 
 ### Cleanup
 
@@ -63,7 +61,26 @@ docker run --name jaeger -d -p 16686:16686 -p 4317:4317 -p 4318:4318 -e COLLECTO
 az group delete --name clc_proj --yes
 ```
 
+## Alternative tutorials tried (we could not replicate a single one even though the newest is from January 2023)
 
+https://www.youtube.com/watch?v=FK0uh-7nDSg
+
+https://www.youtube.com/watch?v=oe5YYh9mhzw
+
+https://docs.dapr.io/operations/monitoring/tracing/jaeger/
+
+
+## Alternative showcase 
+
+=> everything in one docker container since the ports never matched
+
+```
+docker compose up
+```
+
+=> Navigate to http://localhost:16686 for the jaeger ui
+
+=> Invoke REST api using postman (auto-instrumentation is not working due to known issues with fetch e.g. https://github.com/Effect-TS/effect/issues/1031 and linked issues in thread )
 
 ## Lessons learned
 - Don't expect open source documentation to be up to date!
