@@ -13,6 +13,23 @@ Monitoring:
 
 ## Research
 
+Options for instrumentation with openTelemetry:
+A) Manual instrumentation (https://opentelemetry.io/docs/instrumentation/python/manual/)
+B) Auto-instrumentation (https://opentelemetry.io/docs/instrumentation/python/automatic/)
+C) Auto-instrumentation vìa kubernetes operators (https://github.com/open-telemetry/opentelemetry-operator)
+
+Options for Jaeger deployment:
+A) Kubernetes operator (https://www.jaegertracing.io/docs/1.41/operator/)
+B) Kubernetes service (https://github.com/jaegertracing/jaeger-kubernetes)
+
+Options for communication openTelemetry -> Jaeger:
+- OTLP exporter -> Jaeger (https://www.aspecto.io/blog/distributed-tracing-with-opentelemetry-collector-on-kubernetes/)
+- Jaeger exporter -> Jaeger (https://github.com/angudadevops/jaeger-k8s/blob/master/python/app/app.py)
+- OTLP exporter -> Jaeger collector -> Jaeger (https://medium.com/@akashjoffical08/implement-distributed-tracing-with-jaeger-opentelemetry-on-kubernetes-3e35cb77b536)
+
+
+## Architecture
+
 
 
 
