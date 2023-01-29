@@ -5,5 +5,5 @@ opentelemetry-sdk
 opentelemetry-api
 opentelemetry-instrumentation-flask==0.36b0
 opentelemetry-instrumentation-requests==0.36b0
-opentelemetry-exporter-jaeger==1.15.0
+opentelemetry-exporter-otlp
 waitress==2.1.2

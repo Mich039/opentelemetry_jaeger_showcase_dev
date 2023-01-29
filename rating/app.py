@@ -1,25 +1,19 @@
+import os
+
 from flask import Flask, jsonify, request
-from opentelemetry.instrumentation.flask import FlaskInstrumentor
-app = Flask(__name__)
-FlaskInstrumentor().instrument_app(app)
 from opentelemetry import trace
 from opentelemetry.instrumentation.flask import FlaskInstrumentor
-from opentelemetry.exporter.jaeger.thrift import JaegerExporter
 from opentelemetry.sdk.resources import SERVICE_NAME, Resource
 from opentelemetry.sdk.trace import TracerProvider
-from opentelemetry.sdk.trace.export import (
-    ConsoleSpanExporter,
-    SimpleSpanProcessor,
-    BatchSpanProcessor
-)
-jaeger_exporter = JaegerExporter(
-    agent_host_name="localhost",
-    agent_port=6831,
-)
+from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
+from opentelemetry.sdk.trace.export import BatchSpanProcessor
 
-trace.set_tracer_provider(TracerProvider(resource=Resource.create({SERVICE_NAME: "my-helloworld-service"})))
+app = Flask(__name__)
+FlaskInstrumentor().instrument_app(app)
+
+trace.set_tracer_provider(TracerProvider(resource=Resource.create({SERVICE_NAME: "rating"})))
 trace.get_tracer_provider().add_span_processor(
-    BatchSpanProcessor(jaeger_exporter)
+    BatchSpanProcessor(OTLPSpanExporter())
 )
 
 # Dict of with movie id key and dict as value
@@ -59,7 +53,3 @@ def getMovieRatings():
         return jsonify(movie_ratings)
     else:
         return jsonify({"error:":"Movie not found"}), 404
-
-def _corsify_actual_response(response):
-    response.headers.add("Access-Control-Allow-Origin", "*")
-    return response

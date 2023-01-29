@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: clc-rating
+  labels:
+    name: clc-rating
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: clc-rating
+  template:
+    metadata:
+      labels:
+        app: clc-rating
+    spec:
+      containers:
+        - name: clc-rating
+          image: mich039/rating:v3
+          imagePullPolicy: Always
+          env:
+            - name: COUNTER_ENDPOINT
+              value: "http://do-visit-counter-backend.default.svc.cluster.local:5000"
+            - name: JAEGER_URL
+              value: "http://jaeger-service.default:4318" 
+          ports:
+            - name: frontend-port
+              containerPort: 8080
+              protocol: TCP

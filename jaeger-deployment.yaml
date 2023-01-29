@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: clc-jaeger
+  labels:
+    name: clc-jaeger
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: clc-jaeger
+  template:
+    metadata:
+      labels:
+        app: clc-jaeger
+    spec:
+      containers:
+        - name: clc-jaeger
+          image: jaegertracing/all-in-one:latest
+          env:
+            - name: COLLECTOR_OTLP_ENABLED
+              value: "true"
+          ports:
+            - containerPort: 4318
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jaeger-service
+spec:
+  selector:
+    app.kubernetes.io/name: clc-jaeger
+  ports:
+  - name: otlp
+    protocol: TCP
+    port: 4318
+    targetPort: 4318
+  - name: web
+    protocol: TCP
+    port: 16686
