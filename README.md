@@ -31,7 +31,7 @@ Options for communication openTelemetry -> Jaeger:
 
 
 ## Architecture
-
+![download](https://user-images.githubusercontent.com/20288604/211396297-c386a1ba-fd8e-4f87-b9cb-e57649ad171b.png)
 
 ## Original plan: Azure set up
 
